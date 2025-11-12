@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Information - DL Xiair Trade Co., Ltd</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .quick-reference {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .quick-reference h2 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quick-reference h2::before {
+            content: "💰";
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 15px;
+            align-items: start;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .info-item:hover {
+            transform: translateX(5px);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-family: 'Courier New', monospace;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 15px;
+            word-break: break-all;
+            position: relative;
+            padding-right: 40px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 0;
+            top: -2px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: #27ae60;
+        }
+
+        .guide-section {
+            margin-top: 40px;
+        }
+
+        .guide-section h2 {
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .step {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .step.mandatory {
+            border-left: 5px solid #e74c3c;
+        }
+
+        .step.optional {
+            border-left: 5px solid #95a5a6;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.mandatory {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .badge.optional {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .step-content {
+            margin-left: 50px;
+        }
+
+        .step-field {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #667eea;
+        }
+
+        .step-field label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .step-field .value {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: bold;
+            word-break: break-all;
+        }
+
+        .tip, .warning, .note {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .tip {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            color: #1565c0;
+        }
+
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            color: #e65100;
+            font-weight: 500;
+        }
+
+        .note {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            color: #6a1b9a;
+        }
+
+        .checklist {
+            background: #e8f5e9;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .checklist h3 {
+            color: #2e7d32;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .checklist h3::before {
+            content: "✓";
+            margin-right: 10px;
+            font-size: 28px;
+            color: #27ae60;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: start;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .checklist-item::before {
+            content: "✅";
+            margin-right: 12px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .alert-box {
+            background: #ffebee;
+            border: 2px solid #e74c3c;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .alert-box h3 {
+            color: #c0392b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .alert-box h3::before {
+            content: "⚠️";
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .alert-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .alert-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #c0392b;
+            line-height: 1.6;
+        }
+
+        .alert-box li::before {
+            content: "▪";
+            position: absolute;
+            left: 8px;
+            color: #e74c3c;
+            font-size: 20px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .print-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .print-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .copy-btn, .print-btn {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .info-item {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .step-content {
+                margin-left: 0;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DL Xiair Trade Co., Ltd</h1>
+            <p class="subtitle">China Merchants Bank - USD Payment Information</p>
+        </div>
+
+        <div class="content">
+            <!-- Quick Reference Section -->
+            <div class="quick-reference">
+                <h2>Quick Reference - Bank Details</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Currency:</div>
+                        <div class="info-value">
+                            USD
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Beneficiary Name:</div>
+                        <div class="info-value">
+                            DL Xiair Trade Co.,Ltd
+                            <button class="copy-btn" onclick="copyText(this, 'DL Xiair Trade Co.,Ltd')">Copy</button>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Account Number:</div>
+                        <div class="info-value">
+                            411911011632001
+                            <button class="copy-btn" onclick="copyText(this, '411911011632001')">Copy</button>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">SWIFT Code:</div>
+                        <div class="info-value">
+                            CMBCCNBS
+                            <button class="copy-btn" onclick="copyText(this, 'CMBCCNBS')">Copy</button>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Beneficiary Address:</div>
+                        <div class="info-value">
+                            1-1-3, Cross-Border E-Commerce Industrial Park, No.27 ShengMing Third Road, Dalian, Liaoning, China
+                            <button class="copy-btn" onclick="copyText(this, '1-1-3, Cross-Border E-Commerce Industrial Park, No.27 ShengMing Third Road, Dalian, Liaoning, China')">Copy</button>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Bank Name:</div>
+                        <div class="info-value">
+                            CHINA MERCHANTS BANK H.O. SHENZHEN
+                            <button class="copy-btn" onclick="copyText(this, 'CHINA MERCHANTS BANK H.O. SHENZHEN')">Copy</button>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Bank Address:</div>
+                        <div class="info-value">
+                            China Merchants Bank Tower NO.7088, Shennan Boulevard, Shenzhen, China
+                            <button class="copy-btn" onclick="copyText(this, 'China Merchants Bank Tower NO.7088, Shennan Boulevard, Shenzhen, China')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Guide Section -->
+            <div class="guide-section">
+                <h2>Step-by-Step Payment Guide</h2>
+
+                <!-- Step 1 -->
+                <div class="step mandatory">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Beneficiary Name</div>
+                        <span class="badge mandatory">Required</span>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-field">
+                            <label>Enter exactly:</label>
+                            <div class="value">DL Xiair Trade Co.,Ltd</div>
+                        </div>
+                        <div class="warning">
+                            <strong>Important:</strong> Write the full name exactly as shown. If your bank's system has character limits, add the remaining text in the "Remarks" or "Notes" section.
+                        </div>
+                        <div class="note">
+                            <strong>Why this matters:</strong> Incorrect names can cause payment rejection or significant delays.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step mandatory">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Beneficiary Address</div>
+                        <span class="badge mandatory">Required</span>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-field">
+                            <label>Enter exactly:</label>
+                            <div class="value">1-1-3, Cross-Border E-Commerce Industrial Park, No.27 ShengMing Third Road, Dalian, Liaoning, China</div>
+                        </div>
+                        <div class="tip">
+                            <strong>Tip:</strong> Start typing part of the address—your bank's system may auto-fill the complete version. Always double-check that it matches exactly.
+                        </div>
+                        <div class="note">
+                            <strong>Why this matters:</strong> Address errors can lead to processing delays and additional fees.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step mandatory">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">SWIFT Code</div>
+                        <span class="badge mandatory">Required</span>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-field">
+                            <label>Primary SWIFT Code:</label>
+                            <div class="value">CMBCCNBS</div>
+                        </div>
+                        <div class="tip">
+                            <strong>Alternative codes:</strong> If CMBCCNBS doesn't work in your system, try:
+                            <ul style="margin-top: 8px; padding-left: 20px;">
+                                <li>CMBCCNBS182</li>
+                                <li>CMBCCNBSXXX</li>
+                            </ul>
+                        </div>
+                        <div class="warning">
+                            <strong>Critical:</strong> SWIFT codes route payments to the correct bank. Using the wrong code may result in loss of funds or significant transfer fees.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step mandatory">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Beneficiary Account Number</div>
+                        <span class="badge mandatory">Required</span>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-field">
+                            <label>Enter exactly:</label>
+                            <div class="value">411911011632001</div>
+                        </div>
+                        <div class="warning">
+                            <strong>Important:</strong> Copy this number exactly—no spaces, dashes, or typos. Use the "Copy" button above for accuracy.
+                        </div>
+                        <div class="note">
+                            <strong>Why this matters:</strong> Even a single digit error can send money to the wrong account, and recovery may be impossible.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step optional">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Beneficiary Bank Name</div>
+                        <span class="badge optional">Optional</span>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-field">
+                            <label>If required by your bank:</label>
+                            <div class="value">CHINA MERCHANTS BANK H.O. SHENZHEN</div>
+                        </div>
+                        <div class="tip">
+                            <strong>Note:</strong> Only fill this if your bank requires it. If the field is optional, you can skip it.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="step optional">
+                    <div class="step-header">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Beneficiary Bank Address</div>
+                        <span class="badge optional">Optional</span>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-field">
+                            <label>If required by your bank:</label>
+                            <div class="value">China Merchants Bank Tower NO.7088, Shennan Boulevard, Shenzhen, China</div>
+                        </div>
+                        <div class="tip">
+                            <strong>Note:</strong> Include this only if your bank asks for it. Otherwise, it's optional.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Critical Reminders -->
+            <div class="alert-box">
+                <h3>Critical Reminders - Please Read Carefully</h3>
+                <ul>
+                    <li>Please conduct the remittance operation strictly in accordance with the above steps. Any operational errors will directly affect the normal receipt of funds.</li>
+                    <li>Pay close attention to and carefully read all content marked with warning symbols to avoid remittance risks.</li>
+                    <li>International remittances have a relatively long processing cycle. Any errors in the remittance information will affect subsequent work, so please attach great importance to this process.</li>
+                    <li>Double-check all information before submitting the payment. Corrections after submission may be impossible or very costly.</li>
+                </ul>
+            </div>
+
+            <!-- Final Checklist -->
+            <div class="checklist">
+                <h3>Final Checklist Before Sending Payment</h3>
+                <div class="checklist-item">
+                    All mandatory fields (Steps 1-4) are filled correctly with exact information
+                </div>
+                <div class="checklist-item">
+                    The payment currency is set to USD (U.S. Dollars)
+                </div>
+                <div class="checklist-item">
+                    You've reviewed all details for typos or missing information
+                </div>
+                <div class="checklist-item">
+                    Account number has been copied exactly without any modifications
+                </div>
+                <div class="checklist-item">
+                    SWIFT code is entered correctly (CMBCCNBS or alternative if needed)
+                </div>
+                <div class="checklist-item">
+                    Beneficiary name and address match exactly as provided above
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="print-btn" onclick="window.print()">🖨️ Print This Page</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>DL Xiair Trade Co., Ltd</strong></p>
+            <p>For any questions or concerns regarding payment, please contact us before proceeding.</p>
+            <p style="margin-top: 10px; font-size: 13px; color: #999;">
+                © 2024 DL Xiair Trade Co., Ltd. All rights reserved.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function copyText(button, text) {
+            // Create temporary textarea
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            
+            // Select and copy
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // Visual feedback
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
